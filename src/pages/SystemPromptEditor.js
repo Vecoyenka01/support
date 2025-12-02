@@ -35,7 +35,7 @@ const SystemPromptEditor = () => {
   const loadSystemPrompt = async () => {
     setIsLoading(true);
     try {
-      const API_URL = process.env.REACT_APP_API_URL || 'https://support-4m5w.onrender.com/api';
+      const API_URL = process.env.REACT_APP_API_URL || 'https://support-1-3kl6.onrender.com/api';
       console.log('🔄 Loading system prompt from:', `${API_URL}/system-prompt`);
       const response = await fetch(`${API_URL}/system-prompt`);
       console.log('📥 Response status:', response.status);
@@ -62,7 +62,7 @@ const SystemPromptEditor = () => {
     setMessage({ type: '', text: '' });
 
     try {
-      const API_URL = process.env.REACT_APP_API_URL || 'https://support-4m5w.onrender.com/api';
+      const API_URL = process.env.REACT_APP_API_URL || 'https://support-1-3kl6.onrender.com/api';
       const response = await fetch(`${API_URL}/system-prompt`, {
         method: 'PUT',
         headers: {

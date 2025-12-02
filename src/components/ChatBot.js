@@ -137,7 +137,7 @@ const ChatBot = ({ isWidget = false }) => {
 
       setIsLoadingHistory(true);
       try {
-        const API_URL = process.env.REACT_APP_API_URL || 'https://support-4m5w.onrender.com';
+        const API_URL = process.env.REACT_APP_API_URL || 'https://support-1-3kl6.onrender.com';
         const response = await fetch(`${API_URL}/api/conversations/${existingSession}`);
         
         if (response.ok) {
