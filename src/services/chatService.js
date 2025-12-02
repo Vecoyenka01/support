@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://support-4m5w.onrender.com/api';
 
 export const saveMessage = async (sessionId, message, isUser) => {
   try {

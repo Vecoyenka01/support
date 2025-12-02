@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://support-4m5w.onrender.com/api';
 
 // Note: System prompt is now managed in server/system_prompt.md
 // All prompt configuration should be done there
