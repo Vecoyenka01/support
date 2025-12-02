@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import './AllChats.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://support-1-3kl6.onrender.com/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const AllChats = () => {
   const [conversations, setConversations] = useState([]);

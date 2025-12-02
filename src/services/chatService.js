@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL || 'https://support-1-3kl6.onrender.com/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const saveMessage = async (sessionId, message, isUser) => {
   try {

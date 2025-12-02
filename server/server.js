@@ -24,7 +24,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'https://support-4m5w.onrender.com',
+  origin: process.env.CLIENT_URL,
   credentials: true
 }));
 app.use(bodyParser.json());
@@ -90,7 +90,7 @@ app.listen(PORT, () => {
   console.log('═══════════════════════════════════════════');
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`Client URL: ${process.env.CLIENT_URL || 'https://support-4m5w.onrender.com'}`);
+  console.log(`Client URL: ${process.env.CLIENT_URL}`);
   console.log('═══════════════════════════════════════════\n');
 });
 
