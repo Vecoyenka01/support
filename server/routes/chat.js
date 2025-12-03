@@ -223,7 +223,6 @@ router.post('/stream', async (req, res) => {
     const stream = await openai.chat.completions.create({
       model: 'gpt-5',
       messages: messages,
-      temperature: 0.7,
       max_completion_tokens: 2048,
       stream: true
     });
