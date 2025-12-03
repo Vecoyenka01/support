@@ -386,7 +386,7 @@ const ChatBot = ({ isWidget = false }) => {
                     </svg>
                   )}
                 </div>
-                <div className="message-content">
+                <div className="message-content-1">
                   {message.isStreaming && message.text === '' ? (
                     <div className="typing-indicator">
                       <div className="typing-dot"></div>

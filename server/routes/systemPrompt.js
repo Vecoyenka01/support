@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 
 const SYSTEM_PROMPT_PATH = path.join(__dirname, '..', 'system_prompt.md');
 
@@ -63,11 +64,20 @@ router.put('/', async (req, res) => {
     fs.writeFileSync(SYSTEM_PROMPT_PATH, prompt, 'utf8');
     
     console.log('✅ System prompt saved successfully');
-    console.log('🔄 Changes will apply to new conversations immediately');
+    
+    // Trigger reload in chat route
+    try {
+      const port = process.env.PORT || 5000;
+      await axios.get(`http://localhost:${port}/api/chat/reload-prompt`);
+      console.log('🔄 System prompt reloaded in chat service');
+    } catch (reloadError) {
+      console.warn('⚠️ Could not trigger reload:', reloadError.message);
+      console.log('💡 Prompt will be loaded on next server restart');
+    }
 
     res.json({
       success: true,
-      message: 'System prompt updated successfully',
+      message: 'System prompt updated and reloaded successfully',
       length: prompt.length,
       timestamp: new Date()
     });

@@ -221,7 +221,7 @@ router.post('/stream', async (req, res) => {
 
     console.log(`💬 Streaming message: ${message.substring(0, 50)}...`);
     const stream = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: 'gpt-5',
       messages: messages,
       temperature: 0.7,
       max_tokens: 2048,
@@ -294,6 +294,32 @@ router.post('/stream', async (req, res) => {
     console.error('❌ Error streaming message:', error);
     res.write(`data: ${JSON.stringify({ error: error.message })}\n\n`);
     res.end();
+  }
+});
+
+// GET /api/chat/reload-prompt - Reload system prompt from file
+router.get('/reload-prompt', (req, res) => {
+  try {
+    const success = reloadSystemPrompt();
+    if (success) {
+      res.json({
+        success: true,
+        message: 'System prompt reloaded successfully',
+        length: SYSTEM_PROMPT.length
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to reload system prompt'
+      });
+    }
+  } catch (error) {
+    console.error('❌ Error reloading prompt:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error reloading system prompt',
+      error: error.message
+    });
   }
 });
 
