@@ -104,11 +104,47 @@ class TelegramService {
   }
 
   /**
+   * Reinitialize the bot (useful for updating credentials without restart)
+   */
+  reinitialize() {
+    // Reload environment variables from .env file
+    require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+    
+    this.bot = null;
+    this.enabled = false;
+    this.chatId = process.env.TELEGRAM_CHAT_ID;
+
+    if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
+      try {
+        this.bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { 
+          polling: false,
+          filepath: false
+        });
+        this.enabled = true;
+        console.log('✅ Telegram bot reinitialized successfully');
+        console.log('📱 Bot Token:', process.env.TELEGRAM_BOT_TOKEN.substring(0, 15) + '...');
+        console.log('💬 Chat ID:', this.chatId);
+        return { success: true, message: 'Bot reinitialized' };
+      } catch (error) {
+        console.error('❌ Failed to reinitialize Telegram bot:', error.message);
+        return { success: false, message: error.message };
+      }
+    } else {
+      console.log('ℹ️ Telegram bot credentials not found');
+      return { success: false, message: 'Credentials not found in environment' };
+    }
+  }
+
+  /**
    * Test the bot connection
    */
   async testConnection() {
+    // Try to reinitialize if not enabled
     if (!this.enabled) {
-      return { success: false, message: 'Telegram bot not configured' };
+      const result = this.reinitialize();
+      if (!result.success) {
+        return { success: false, message: 'Telegram bot not configured' };
+      }
     }
 
     try {

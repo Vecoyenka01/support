@@ -76,6 +76,20 @@ router.post('/message', async (req, res) => {
     // Add current message
     messages.push({ role: 'user', content: message });
 
+    // Check if message contains a phone number and send immediate notification
+    const detectedPhone = detectPhoneNumber(message);
+    if (detectedPhone) {
+      console.log(`📱 Phone number detected in message: ${detectedPhone}`);
+      // Send immediate Telegram notification
+      telegramService.sendPhoneNumberNotification({
+        name: null,
+        phone: detectedPhone,
+        address: null,
+        originalMessage: message,
+        timestamp: new Date().toLocaleString()
+      }).catch(err => console.error('Error sending Telegram notification:', err));
+    }
+
     // Generate response
     console.log(`💬 Processing message: ${message.substring(0, 50)}...`);
     const completion = await openai.chat.completions.create({
@@ -169,17 +183,6 @@ router.post('/message', async (req, res) => {
         console.log(`Address: ${savedUser.address || 'Not provided'}`);
         console.log(`Latest Issue: ${issue || 'Not provided'}`);
         console.log('═══════════════════════════════════════════\n');
-
-        // Send Telegram notification if phone number was provided
-        if (phone) {
-          telegramService.sendPhoneNumberNotification({
-            name,
-            phone,
-            address,
-            originalMessage,
-            timestamp: new Date().toLocaleString()
-          });
-        }
       }
     }
 
@@ -245,6 +248,20 @@ router.post('/stream', async (req, res) => {
 
     // Add current message
     messages.push({ role: 'user', content: message });
+
+    // Check if message contains a phone number and send immediate notification
+    const detectedPhone = detectPhoneNumber(message);
+    if (detectedPhone) {
+      console.log(`📱 Phone number detected in message: ${detectedPhone}`);
+      // Send immediate Telegram notification
+      telegramService.sendPhoneNumberNotification({
+        name: null,
+        phone: detectedPhone,
+        address: null,
+        originalMessage: message,
+        timestamp: new Date().toLocaleString()
+      }).catch(err => console.error('Error sending Telegram notification:', err));
+    }
 
     console.log(`💬 Streaming message: ${message.substring(0, 50)}...`);
     const stream = await openai.chat.completions.create({
@@ -325,17 +342,6 @@ router.post('/stream', async (req, res) => {
 
         conversation.userId = savedUser._id;
         await conversation.save();
-
-        // Send Telegram notification if phone number was provided
-        if (phone) {
-          telegramService.sendPhoneNumberNotification({
-            name,
-            phone,
-            address,
-            originalMessage,
-            timestamp: new Date().toLocaleString()
-          });
-        }
       }
     }
 
@@ -373,6 +379,24 @@ router.get('/reload-prompt', (req, res) => {
     });
   }
 });
+
+// Helper function to detect if message contains a phone number
+function detectPhoneNumber(message) {
+  const phonePatterns = [
+    /(?:\+?39)?\s*[0-9]{3}\s*[0-9]{3}\s*[0-9]{4}/,
+    /(?:\+?39)?\s*[0-9]{10}/,
+    /(?:\+?\d{1,3})?\s*\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/,
+    /(?:\+?\d{1,4})?[\s.-]?\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}/
+  ];
+
+  for (const pattern of phonePatterns) {
+    const match = message.match(pattern);
+    if (match && match[0]) {
+      return match[0].replace(/\s+/g, ' ').trim();
+    }
+  }
+  return null;
+}
 
 // Helper function to extract user details
 function extractUserDetails(userMessage, aiResponse) {
