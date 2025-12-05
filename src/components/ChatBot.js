@@ -407,7 +407,7 @@ const ChatBot = ({ isWidget = false }) => {
           <textarea
             ref={inputRef}
             className="message-input"
-            placeholder="Scrivi il tuo messaggio... (Shift+Invio per una nuova riga)"
+            placeholder="Scrivimi qualsiasi domanda..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -430,6 +430,9 @@ const ChatBot = ({ isWidget = false }) => {
               <i className="fas fa-paper-plane"></i>
             )}
           </button>
+        </div>
+        <div className="terms-text">
+            Questa è una Intelligenza Artificale a supporto di Adamanti Smile Studios. Qualsiasi risposta non sostituisce la diagnosi di un medico e la visita tradizionale. Tutte le informazioni possono essere ritenute valide solo ed esclusivamente qualora le condizioni cliniche siano idonee a seguito di esami, diagnosi, e visita tradizionale. Informazioni sui direttori sanitari nella pagina delle singole location.
         </div>
         </div>
       </div>

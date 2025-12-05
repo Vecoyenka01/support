@@ -46,6 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  display: none;
 }
 
 .chatbot-header h1 {
@@ -359,6 +360,15 @@
 .input-wrapper:focus-within {
   border-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), var(--shadow-md);
+}
+
+.terms-text {
+  margin-top: 0.75rem;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  line-height: 1.4;
+  padding: 0 0.5rem;
 }
 
 .message-input {
