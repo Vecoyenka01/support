@@ -428,7 +428,11 @@ const ChatBot = ({ isWidget = false }) => {
             onClick={handleSendMessage}
             disabled={isLoading || !inputValue.trim()}
           >
-            {isLoading ? '...' : '→'}
+            {isLoading ? (
+              <i className="fas fa-circle-notch fa-spin"></i>
+            ) : (
+              <i className="fas fa-paper-plane"></i>
+            )}
           </button>
         </div>
         </div>

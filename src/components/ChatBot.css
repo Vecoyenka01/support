@@ -83,7 +83,7 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--bg-primary);
+  background: #698680;
   scroll-behavior: smooth;
 }
 
@@ -159,12 +159,12 @@
 }
 
 .message.user .message-avatar {
-  background: linear-gradient(135deg, #6a8811 0%, #578a0d 100%);
+  background: linear-gradient(135deg, #698680 0%, #698680 100%);
   color: white;
 }
 
 .message.assistant .message-avatar {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #578a0d 100%);
+  background: linear-gradient(135deg, #698680 0%, #698680 100%);
   color: white;
 }
 
@@ -186,7 +186,7 @@
 }
 
 .message.user .message-content-1 {
-  background: linear-gradient(135deg, #6a8811 0%, #578a0d 100%);
+  background: linear-gradient(135deg, #698680 0%, #698680 100%);
   color: white;
   border-bottom-right-radius: 4px;
 }
@@ -201,6 +201,7 @@
 .message-content-1 p {
   margin: 0 0 1em 0;
   white-space: pre-wrap;
+  color: #fff;
 }
 
 .message-content-1 p:last-child {
@@ -293,7 +294,7 @@
 
 /* Input Container */
 .input-container {
-  background: var(--bg-primary);
+  background: #698680;
   padding: 0 0 2rem 0;
   border-top: 1px solid var(--border-color);
 }
@@ -330,6 +331,7 @@
   font-size: 16px;
   font-family: inherit;
   resize: none;
+  min-height: 45px;
   max-height: 200px;
   line-height: 1.5;
   padding: 0;
@@ -344,11 +346,11 @@
   background: white;
   color: #000;
   border: none;
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  min-height: 32px;
+  border-radius: 16px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
