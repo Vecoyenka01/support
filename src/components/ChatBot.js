@@ -317,7 +317,7 @@ const ChatBot = ({ isWidget = false }) => {
       <div className="chatbot-header">
         <div className="chatbot-header-inner">
           <h1>
-            Adamanti Assistant Service
+            Servizio Assistente Adamanti
           </h1>
         </div>
       </div>
@@ -338,7 +338,7 @@ const ChatBot = ({ isWidget = false }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              Loading your conversation...
+              Caricamento conversazione...
             </motion.h2>
           </div>
         ) : messages.length === 0 ? (
@@ -398,7 +398,7 @@ const ChatBot = ({ isWidget = false }) => {
           <textarea
             ref={inputRef}
             className="message-input"
-            placeholder="Type your message... (Shift+Enter for new line)"
+            placeholder="Scrivi il tuo messaggio... (Shift+Invio per una nuova riga)"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
