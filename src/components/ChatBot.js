@@ -5,6 +5,16 @@ import { streamResponse } from '../services/geminiService';
 import './ChatBot.css';
 import favImage from '../img/fav.jpg';
 
+// Import before/after images
+import img01 from '../img/Before & After/250330_Prima e Dopo_Luca La Scala_Adamanti_Page_01.jpg';
+import img02 from '../img/Before & After/250330_Prima e Dopo_Luca La Scala_Adamanti_Page_02.jpg';
+import img03 from '../img/Before & After/250330_Prima e Dopo_Luca La Scala_Adamanti_Page_03.jpg';
+import img04 from '../img/Before & After/250330_Prima e Dopo_Luca La Scala_Adamanti_Page_04.jpg';
+import img05 from '../img/Before & After/250330_Prima e Dopo_Luca La Scala_Adamanti_Page_05.jpg';
+import img06 from '../img/Before & After/250330_Prima e Dopo_Luca La Scala_Adamanti_Page_06.jpg';
+
+const beforeAfterImages = [img01, img02, img03, img04, img05, img06];
+
 // Demo responses for when API is not configured
 const getDemoResponse = (userMessage) => {
   const msg = userMessage.toLowerCase();
@@ -213,8 +223,20 @@ const ChatBot = ({ isWidget = false }) => {
     setInputValue('');
     setIsLoading(true);
 
-    // Check if user is requesting to see more testimonials/images
+    // Check if this is an inquiry about services
     const messageLower = currentInput.toLowerCase();
+    const inquiryKeywords = ['servizio', 'servizi', 'trattamento', 'trattamenti', 'costo', 'prezzo', 
+                            'quanto costa', 'informazioni', 'dettagli', 'sbiancamento', 'impianto', 
+                            'impianti', 'ortodonzia', 'apparecchio', 'denti', 'smile', 'sorriso', 
+                            'before', 'after', 'prima', 'dopo', 'esempio', 'esempi', 'risultati', 
+                            'trasformazione', 'case', 'casi'];
+    const isInquiry = inquiryKeywords.some(keyword => messageLower.includes(keyword));
+    const isFirstMessage = messages.filter(m => m.isUser).length === 0;
+    
+    // Show images if it's first message and is inquiry-related
+    const shouldShowImages = isFirstMessage && isInquiry;
+    
+    // Check if user is requesting to see more testimonials/images
     const showImagesKeywords = ['image', 'images', 'photo', 'photos', 'testimonial', 'testimonials', 
                                 'see more', 'show more', 'before', 'after', 'example', 'examples', 
                                 'case', 'cases', 'result', 'results', 'transformation', 'transformations'];
@@ -269,11 +291,18 @@ const ChatBot = ({ isWidget = false }) => {
           )
         );
 
-        // Send new testimonial images as a message if user requested
-        if (requestingImages) {
+        // Send images for inquiry or when requested
+        if (shouldShowImages || requestingImages) {
           setTimeout(() => {
-            sendTestimonialImages(3);
-          }, 300);
+            const imageMessage = {
+              id: Date.now() + 2,
+              text: '',
+              isUser: false,
+              timestamp: new Date(),
+              images: beforeAfterImages.slice(0, 3)
+            };
+            setMessages(prev => [...prev, imageMessage]);
+          }, 500);
         }
       } else {
         console.log('❌ FAILED! Error:', result.error);
@@ -373,17 +402,28 @@ const ChatBot = ({ isWidget = false }) => {
                   )}
                 </div>
                 <div className="message-content-wrapper">
-                  <div className="message-content-1">
-                    {message.isStreaming && message.text === '' ? (
-                      <div className="typing-indicator">
-                        <div className="typing-dot"></div>
-                        <div className="typing-dot"></div>
-                        <div className="typing-dot"></div>
-                      </div>
-                    ) : (
-                      <ReactMarkdown>{message.text}</ReactMarkdown>
-                    )}
-                  </div>
+                  {message.images && message.images.length > 0 && (
+                    <div className="message-images-grid">
+                      {message.images.map((img, idx) => (
+                        <div key={idx} className="message-image-card">
+                          <img src={img} alt={`Before/After ${idx + 1}`} className="message-image" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {message.text && (
+                    <div className="message-content-1">
+                      {message.isStreaming && message.text === '' ? (
+                        <div className="typing-indicator">
+                          <div className="typing-dot"></div>
+                          <div className="typing-dot"></div>
+                          <div className="typing-dot"></div>
+                        </div>
+                      ) : (
+                        <ReactMarkdown>{message.text}</ReactMarkdown>
+                      )}
+                    </div>
+                  )}
                   {message.isUser && message.timestamp && (
                     <div className="message-timestamp">
                       {new Date(message.timestamp).toLocaleTimeString('it-IT', { 
